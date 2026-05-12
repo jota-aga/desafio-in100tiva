@@ -49,4 +49,12 @@ public class TarefaService {
 		return tarefaRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("Tarefa by id"));
 	}
+	
+	public List<Tarefa> procurarTarefasPorStatus(StatusDaTarefa statusDaTarefa){
+		return tarefaRepository.findAllByStatus(statusDaTarefa);
+	}
+	
+	public List<Tarefa> procurarTarefasPorTitulo(String titulo){
+		return tarefaRepository.findAllByTituloContains(titulo);
+	}
 }
