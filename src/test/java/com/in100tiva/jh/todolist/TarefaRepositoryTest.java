@@ -26,7 +26,7 @@ public class TarefaRepositoryTest {
 	public void setUp() {
 		tarefa = Tarefa.builder()
 				.titulo("titulo")
-				.descrição("descrição")
+				.descricao("descrição")
 				.status(StatusDaTarefa.PENDENTE)
 				.build();
 	}

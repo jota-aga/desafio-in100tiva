@@ -24,7 +24,7 @@ public class Tarefa {
 	
 	private String titulo;
 	
-	private String descrição;
+	private String descricao;
 	
 	private StatusDaTarefa status;
 }

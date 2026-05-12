@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.in100tiva.jh.todolist.dto.TarefaRequest;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
+import com.in100tiva.jh.todolist.exception.NotFoundException;
 import com.in100tiva.jh.todolist.mapper.TarefaMapper;
 import com.in100tiva.jh.todolist.repository.TarefaRepository;
 
@@ -31,6 +32,8 @@ public class TarefaService {
 		Tarefa tarefa = procurarTarefaPorId(id);
 		
 		tarefa = TarefaMapper.editarTarefa(tarefaRequest, tarefa);
+		
+		tarefaRepository.save(tarefa);
 	}
 	
 	@Transactional
@@ -44,6 +47,6 @@ public class TarefaService {
 	
 	public Tarefa procurarTarefaPorId(Long id) {
 		return tarefaRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Tarefa por id não encontrada!"));
+				.orElseThrow(() -> new NotFoundException("Tarefa by id"));
 	}
 }

@@ -8,15 +8,15 @@ public class TarefaMapper {
 	public static Tarefa RequestToEntity(TarefaRequest tarefaRequest) {
 		return Tarefa.builder()
 						.titulo(tarefaRequest.titulo())
-						.descrição(tarefaRequest.descricao())
+						.descricao(tarefaRequest.descricao())
 						.status(tarefaRequest.status())
 						.build();
 	}
 	
 	public static Tarefa editarTarefa(TarefaRequest tarefaRequest, Tarefa tarefa) {
 		tarefa.setTitulo(tarefaRequest.titulo());
-		tarefa.setDescrição(tarefa.getDescrição());
-		tarefa.setStatus(tarefa.getStatus());
+		tarefa.setDescricao(tarefaRequest.descricao());
+		tarefa.setStatus(tarefaRequest.status());
 		
 		return tarefa;
 	}
