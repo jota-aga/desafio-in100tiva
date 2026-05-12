@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.in100tiva.jh.todolist.dto.TarefaRequest;
+import com.in100tiva.jh.todolist.dto.TarefaDTO;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 import com.in100tiva.jh.todolist.exception.NotFoundException;
@@ -20,7 +20,7 @@ public class TarefaService {
 	private TarefaRepository tarefaRepository;
 	
 	@Transactional
-	public void criarTarefa(TarefaRequest tarefaRequest) {
+	public void criarTarefa(TarefaDTO tarefaRequest) {
 		Tarefa tarefa = TarefaMapper.RequestToEntity(tarefaRequest);
 		tarefa.setStatus(StatusDaTarefa.EM_ANDAMENTO);
 		
@@ -28,7 +28,7 @@ public class TarefaService {
 	}
 	
 	@Transactional
-	public void atualizarTarefa(TarefaRequest tarefaRequest, Long id) {
+	public void atualizarTarefa(TarefaDTO tarefaRequest, Long id) {
 		Tarefa tarefa = procurarTarefaPorId(id);
 		
 		tarefa = TarefaMapper.editarTarefa(tarefaRequest, tarefa);

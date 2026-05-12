@@ -4,8 +4,9 @@ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record TarefaRequest(
-		@NotBlank String titulo,
+public record TarefaDTO(
+		@NotBlank(message="Título é obrigatório")
+		String titulo,
 		String descricao,
 		StatusDaTarefa status) 
 {}

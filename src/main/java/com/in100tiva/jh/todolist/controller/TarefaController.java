@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.in100tiva.jh.todolist.dto.TarefaRequest;
+import com.in100tiva.jh.todolist.dto.TarefaDTO;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 import com.in100tiva.jh.todolist.service.TarefaService;
@@ -31,13 +31,13 @@ public class TarefaController {
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void criarTarefa(@Valid @RequestBody TarefaRequest request) {
+	public void criarTarefa(@Valid @RequestBody TarefaDTO request) {
 		tarefaService.criarTarefa(request);
 	}
 	
 	@PutMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public void atualizarTarefa(@RequestBody TarefaRequest request, @PathVariable Long id) {
+	public void atualizarTarefa(@RequestBody TarefaDTO request, @PathVariable Long id) {
 		tarefaService.atualizarTarefa(request, id);
 	}
 	

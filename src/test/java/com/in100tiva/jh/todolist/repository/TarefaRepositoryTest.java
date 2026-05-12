@@ -12,7 +12,6 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
-import com.in100tiva.jh.todolist.repository.TarefaRepository;
 
 @DataJpaTest
 public class TarefaRepositoryTest {
