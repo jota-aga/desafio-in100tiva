@@ -1,0 +1,251 @@
+[1mdiff --git a/src/main/java/com/in100tiva/jh/todolist/controller/TarefaController.java b/src/main/java/com/in100tiva/jh/todolist/controller/TarefaController.java[m
+[1mindex e513bb8..04ca43b 100644[m
+[1m--- a/src/main/java/com/in100tiva/jh/todolist/controller/TarefaController.java[m
+[1m+++ b/src/main/java/com/in100tiva/jh/todolist/controller/TarefaController.java[m
+[36m@@ -15,7 +15,7 @@[m [mimport org.springframework.web.bind.annotation.RequestParam;[m
+ import org.springframework.web.bind.annotation.ResponseStatus;[m
+ import org.springframework.web.bind.annotation.RestController;[m
+ [m
+[31m-import com.in100tiva.jh.todolist.dto.TarefaRequest;[m
+[32m+[m[32mimport com.in100tiva.jh.todolist.dto.TarefaDTO;[m
+ import com.in100tiva.jh.todolist.entity.Tarefa;[m
+ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;[m
+ import com.in100tiva.jh.todolist.service.TarefaService;[m
+[36m@@ -31,13 +31,13 @@[m [mpublic class TarefaController {[m
+ 	[m
+ 	@PostMapping[m
+ 	@ResponseStatus(code = HttpStatus.CREATED)[m
+[31m-	public void criarTarefa(@Valid @RequestBody TarefaRequest request) {[m
+[32m+[m	[32mpublic void criarTarefa(@Valid @RequestBody TarefaDTO request) {[m
+ 		tarefaService.criarTarefa(request);[m
+ 	}[m
+ 	[m
+ 	@PutMapping("/{id}")[m
+ 	@ResponseStatus(code = HttpStatus.OK)[m
+[31m-	public void atualizarTarefa(@RequestBody TarefaRequest request, @PathVariable Long id) {[m
+[32m+[m	[32mpublic void atualizarTarefa(@RequestBody TarefaDTO request, @PathVariable Long id) {[m
+ 		tarefaService.atualizarTarefa(request, id);[m
+ 	}[m
+ 	[m
+[1mdiff --git a/src/main/java/com/in100tiva/jh/todolist/dto/TarefaDTO.java b/src/main/java/com/in100tiva/jh/todolist/dto/TarefaDTO.java[m
+[1mindex 03ba033..ff6d20a 100644[m
+[1m--- a/src/main/java/com/in100tiva/jh/todolist/dto/TarefaDTO.java[m
+[1m+++ b/src/main/java/com/in100tiva/jh/todolist/dto/TarefaDTO.java[m
+[36m@@ -4,8 +4,9 @@[m [mimport com.in100tiva.jh.todolist.enums.StatusDaTarefa;[m
+ [m
+ import jakarta.validation.constraints.NotBlank;[m
+ [m
+[31m-public record TarefaRequest([m
+[31m-		@NotBlank String titulo,[m
+[32m+[m[32mpublic record TarefaDTO([m
+[32m+[m		[32m@NotBlank(message="Título é obrigatório")[m
+[32m+[m		[32mString titulo,[m
+ 		String descricao,[m
+ 		StatusDaTarefa status) [m
+ {}[m
+[1mdiff --git a/src/main/java/com/in100tiva/jh/todolist/mapper/TarefaMapper.java b/src/main/java/com/in100tiva/jh/todolist/mapper/TarefaMapper.java[m
+[1mindex 914e092..b5ad94f 100644[m
+[1m--- a/src/main/java/com/in100tiva/jh/todolist/mapper/TarefaMapper.java[m
+[1m+++ b/src/main/java/com/in100tiva/jh/todolist/mapper/TarefaMapper.java[m
+[36m@@ -1,11 +1,11 @@[m
+ package com.in100tiva.jh.todolist.mapper;[m
+ [m
+[31m-import com.in100tiva.jh.todolist.dto.TarefaRequest;[m
+[32m+[m[32mimport com.in100tiva.jh.todolist.dto.TarefaDTO;[m
+ import com.in100tiva.jh.todolist.entity.Tarefa;[m
+ [m
+ public class TarefaMapper {[m
+ 	[m
+[31m-	public static Tarefa RequestToEntity(TarefaRequest tarefaRequest) {[m
+[32m+[m	[32mpublic static Tarefa RequestToEntity(TarefaDTO tarefaRequest) {[m
+ 		return Tarefa.builder()[m
+ 						.titulo(tarefaRequest.titulo())[m
+ 						.descricao(tarefaRequest.descricao())[m
+[36m@@ -13,7 +13,7 @@[m [mpublic class TarefaMapper {[m
+ 						.build();[m
+ 	}[m
+ 	[m
+[31m-	public static Tarefa editarTarefa(TarefaRequest tarefaRequest, Tarefa tarefa) {[m
+[32m+[m	[32mpublic static Tarefa editarTarefa(TarefaDTO tarefaRequest, Tarefa tarefa) {[m
+ 		tarefa.setTitulo(tarefaRequest.titulo());[m
+ 		tarefa.setDescricao(tarefaRequest.descricao());[m
+ 		tarefa.setStatus(tarefaRequest.status());[m
+[1mdiff --git a/src/main/java/com/in100tiva/jh/todolist/service/TarefaService.java b/src/main/java/com/in100tiva/jh/todolist/service/TarefaService.java[m
+[1mindex cd292c1..2beb54e 100644[m
+[1m--- a/src/main/java/com/in100tiva/jh/todolist/service/TarefaService.java[m
+[1m+++ b/src/main/java/com/in100tiva/jh/todolist/service/TarefaService.java[m
+[36m@@ -4,7 +4,7 @@[m [mimport java.util.List;[m
+ import org.springframework.beans.factory.annotation.Autowired;[m
+ import org.springframework.stereotype.Service;[m
+ [m
+[31m-import com.in100tiva.jh.todolist.dto.TarefaRequest;[m
+[32m+[m[32mimport com.in100tiva.jh.todolist.dto.TarefaDTO;[m
+ import com.in100tiva.jh.todolist.entity.Tarefa;[m
+ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;[m
+ import com.in100tiva.jh.todolist.exception.NotFoundException;[m
+[36m@@ -20,7 +20,7 @@[m [mpublic class TarefaService {[m
+ 	private TarefaRepository tarefaRepository;[m
+ 	[m
+ 	@Transactional[m
+[31m-	public void criarTarefa(TarefaRequest tarefaRequest) {[m
+[32m+[m	[32mpublic void criarTarefa(TarefaDTO tarefaRequest) {[m
+ 		Tarefa tarefa = TarefaMapper.RequestToEntity(tarefaRequest);[m
+ 		tarefa.setStatus(StatusDaTarefa.EM_ANDAMENTO);[m
+ 		[m
+[36m@@ -28,7 +28,7 @@[m [mpublic class TarefaService {[m
+ 	}[m
+ 	[m
+ 	@Transactional[m
+[31m-	public void atualizarTarefa(TarefaRequest tarefaRequest, Long id) {[m
+[32m+[m	[32mpublic void atualizarTarefa(TarefaDTO tarefaRequest, Long id) {[m
+ 		Tarefa tarefa = procurarTarefaPorId(id);[m
+ 		[m
+ 		tarefa = TarefaMapper.editarTarefa(tarefaRequest, tarefa);[m
+[1mdiff --git a/src/test/java/com/in100tiva/jh/todolist/controller/TarefaControllerTest.java b/src/test/java/com/in100tiva/jh/todolist/controller/TarefaControllerTest.java[m
+[1mindex 0b6f58d..2dc1cfd 100644[m
+[1m--- a/src/test/java/com/in100tiva/jh/todolist/controller/TarefaControllerTest.java[m
+[1m+++ b/src/test/java/com/in100tiva/jh/todolist/controller/TarefaControllerTest.java[m
+[36m@@ -16,11 +16,10 @@[m [mimport org.springframework.test.web.servlet.MockMvc;[m
+ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;[m
+ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;[m
+ [m
+[31m-import com.in100tiva.jh.todolist.dto.TarefaRequest;[m
+[32m+[m[32mimport com.in100tiva.jh.todolist.dto.TarefaDTO;[m
+ import com.in100tiva.jh.todolist.entity.Tarefa;[m
+ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;[m
+ import com.in100tiva.jh.todolist.repository.TarefaRepository;[m
+[31m-import com.in100tiva.jh.todolist.service.TarefaService;[m
+ [m
+ import tools.jackson.core.JacksonException;[m
+ import tools.jackson.databind.ObjectMapper;[m
+[36m@@ -37,17 +36,14 @@[m [mpublic class TarefaControllerTest {[m
+ 	@Autowired[m
+ 	private ObjectMapper objectMapper;[m
+ 	[m
+[31m-	@Autowired[m
+[31m-	private TarefaService tarefaService;[m
+[31m-	[m
+ 	@Autowired[m
+ 	private TarefaRepository tarefaRepository;[m
+ 	[m
+[31m-	private TarefaRequest tarefaRequest;[m
+[32m+[m	[32mprivate TarefaDTO tarefaRequest;[m
+ 	[m
+ 	@BeforeEach[m
+ 	public void setUp() {[m
+[31m-		tarefaRequest = new TarefaRequest("titulo", "descrição", StatusDaTarefa.FINALIZADA);[m
+[32m+[m		[32mtarefaRequest = new TarefaDTO("titulo", "descrição", StatusDaTarefa.FINALIZADA);[m
+ 		tarefaRepository.deleteAll();[m
+ 	}[m
+ 	[m
+[36m@@ -65,7 +61,7 @@[m [mpublic class TarefaControllerTest {[m
+ 	[m
+ 	@Test[m
+ 	public void createTarefa_WhenTituloIsEmpty() throws JacksonException, Exception {[m
+[31m-		tarefaRequest = new TarefaRequest("   ", "descrição", StatusDaTarefa.FINALIZADA);[m
+[32m+[m		[32mtarefaRequest = new TarefaDTO("   ", "descrição", StatusDaTarefa.FINALIZADA);[m
+ [m
+ 		mockMvc.perform(MockMvcRequestBuilders.post(URI)[m
+ 				.contentType(MediaType.APPLICATION_JSON)[m
+[36m@@ -115,4 +111,52 @@[m [mpublic class TarefaControllerTest {[m
+ 		[m
+ 		assertTrue(optionalTarefa.isEmpty());[m
+ 	}[m
+[32m+[m[41m	[m
+[32m+[m	[32m@Test[m
+[32m+[m	[32mpublic void shouldFindByStatusSucessfully() throws JacksonException, Exception {[m
+[32m+[m		[32mTarefa tarefa = Tarefa.builder()[m
+[32m+[m				[32m.titulo("titulo")[m
+[32m+[m				[32m.descricao("descrição")[m
+[32m+[m				[32m.status(StatusDaTarefa.PENDENTE)[m
+[32m+[m				[32m.build();[m
+[32m+[m		[32mTarefa tarefa2 = Tarefa.builder()[m
+[32m+[m				[32m.titulo("titulo")[m
+[32m+[m				[32m.descricao("descrição")[m
+[32m+[m				[32m.status(StatusDaTarefa.PENDENTE)[m
+[32m+[m				[32m.build();[m
+[32m+[m[41m		[m
+[32m+[m		[32mtarefaRepository.saveAll(List.of(tarefa, tarefa2));[m
+[32m+[m[41m		[m
+[32m+[m		[32mmockMvc.perform(MockMvcRequestBuilders.get(URI+"/status")[m
+[32m+[m				[32m.param("status", StatusDaTarefa.PENDENTE.toString()))[m
+[32m+[m		[32m.andExpect(MockMvcResultMatchers.status().isOk());[m
+[32m+[m[41m		[m
+[32m+[m		[32mList<Tarefa> tarefas = tarefaRepository.findAllByStatus(StatusDaTarefa.PENDENTE);[m
+[32m+[m[41m		[m
+[32m+[m		[32massertEquals(2, tarefas.size());[m
+[32m+[m	[32m}[m
+[32m+[m[41m	[m
+[32m+[m	[32m@Test[m
+[32m+[m	[32mpublic void shouldFindByTituloSucessfully() throws JacksonException, Exception {[m
+[32m+[m		[32mTarefa tarefa = Tarefa.builder()[m
+[32m+[m				[32m.titulo("titulozinho")[m
+[32m+[m				[32m.descricao("descrição")[m
+[32m+[m				[32m.status(StatusDaTarefa.PENDENTE)[m
+[32m+[m				[32m.build();[m
+[32m+[m		[32mTarefa tarefa2 = Tarefa.builder()[m
+[32m+[m				[32m.titulo("tit ulo")[m
+[32m+[m				[32m.descricao("descrição")[m
+[32m+[m				[32m.status(StatusDaTarefa.PENDENTE)[m
+[32m+[m				[32m.build();[m
+[32m+[m[41m		[m
+[32m+[m		[32mtarefaRepository.saveAll(List.of(tarefa, tarefa2));[m
+[32m+[m[41m		[m
+[32m+[m		[32mmockMvc.perform(MockMvcRequestBuilders.get(URI+"/titulo")[m
+[32m+[m				[32m.param("titulo", "tit"))[m
+[32m+[m		[32m.andExpect(MockMvcResultMatchers.status().isOk());[m
+[32m+[m[41m		[m
+[32m+[m		[32mList<Tarefa> tarefas = tarefaRepository.findAllByStatus(StatusDaTarefa.PENDENTE);[m
+[32m+[m[41m		[m
+[32m+[m		[32massertEquals(2, tarefas.size());[m
+[32m+[m	[32m}[m
+ }[m
+[1mdiff --git a/src/test/java/com/in100tiva/jh/todolist/repository/TarefaRepositoryTest.java b/src/test/java/com/in100tiva/jh/todolist/repository/TarefaRepositoryTest.java[m
+[1mindex 6e5d0de..5684fd0 100644[m
+[1m--- a/src/test/java/com/in100tiva/jh/todolist/repository/TarefaRepositoryTest.java[m
+[1m+++ b/src/test/java/com/in100tiva/jh/todolist/repository/TarefaRepositoryTest.java[m
+[36m@@ -12,7 +12,6 @@[m [mimport org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;[m
+ [m
+ import com.in100tiva.jh.todolist.entity.Tarefa;[m
+ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;[m
+[31m-import com.in100tiva.jh.todolist.repository.TarefaRepository;[m
+ [m
+ @DataJpaTest[m
+ public class TarefaRepositoryTest {[m
+[1mdiff --git a/src/test/java/com/in100tiva/jh/todolist/service/TarefaServiceTest.java b/src/test/java/com/in100tiva/jh/todolist/service/TarefaServiceTest.java[m
+[1mindex 8cd7b4d..4038151 100644[m
+[1m--- a/src/test/java/com/in100tiva/jh/todolist/service/TarefaServiceTest.java[m
+[1m+++ b/src/test/java/com/in100tiva/jh/todolist/service/TarefaServiceTest.java[m
+[36m@@ -13,7 +13,7 @@[m [mimport org.springframework.beans.factory.annotation.Autowired;[m
+ import org.springframework.boot.test.context.SpringBootTest;[m
+ import org.springframework.transaction.annotation.Transactional;[m
+ [m
+[31m-import com.in100tiva.jh.todolist.dto.TarefaRequest;[m
+[32m+[m[32mimport com.in100tiva.jh.todolist.dto.TarefaDTO;[m
+ import com.in100tiva.jh.todolist.entity.Tarefa;[m
+ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;[m
+ import com.in100tiva.jh.todolist.exception.NotFoundException;[m
+[36m@@ -29,12 +29,12 @@[m [mpublic class TarefaServiceTest {[m
+ 	@Autowired[m
+ 	private TarefaRepository tarefaRepository;[m
+ 	[m
+[31m-	private TarefaRequest request;[m
+[32m+[m	[32mprivate TarefaDTO request;[m
+ 	[m
+ 	[m
+ 	@BeforeEach[m
+ 	public void setUp() {[m
+[31m-		request = new TarefaRequest("titulo", "descricao", StatusDaTarefa.PENDENTE);[m
+[32m+[m		[32mrequest = new TarefaDTO("titulo", "descricao", StatusDaTarefa.PENDENTE);[m
+ 		tarefaRepository.deleteAll();[m
+ 	}[m
+ 	[m
+[36m@@ -62,7 +62,7 @@[m [mpublic class TarefaServiceTest {[m
+ 	public void shouldUpdateSucessfully() {[m
+ 		tarefaService.criarTarefa(request);[m
+ 		[m
+[31m-		TarefaRequest atualizacao = new TarefaRequest("novo titulo", "nova descricao", StatusDaTarefa.FINALIZADA);[m
+[32m+[m		[32mTarefaDTO atualizacao = new TarefaDTO("novo titulo", "nova descricao", StatusDaTarefa.FINALIZADA);[m
+ 		[m
+ 		List<Tarefa> tarefas = tarefaService.listarTarefas();[m
+ 		[m
