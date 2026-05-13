@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.in100tiva.jh.todolist.dto.TarefaDTO;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
+import com.in100tiva.jh.todolist.mapper.TarefaMapper;
 import com.in100tiva.jh.todolist.service.TarefaService;
 
 import jakarta.validation.Valid;
@@ -49,8 +50,10 @@ public class TarefaController {
 	
 	@GetMapping
 	@ResponseStatus(code = HttpStatus.OK)
-	public void listarTarefas() {
-		tarefaService.listarTarefas();
+	public List<TarefaDTO> listarTarefas() {
+		List<Tarefa> tarefas = tarefaService.listarTarefas();
+		
+		return TarefaMapper.listEntityToListDTO(tarefas);
 	}
 	
 	@GetMapping("/status")

@@ -1,5 +1,7 @@
 package com.in100tiva.jh.todolist.mapper;
 
+import java.util.List;
+
 import com.in100tiva.jh.todolist.dto.TarefaDTO;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 
@@ -19,5 +21,15 @@ public class TarefaMapper {
 		tarefa.setStatus(tarefaRequest.status());
 		
 		return tarefa;
+	}
+	
+	public static TarefaDTO entityToDTO(Tarefa tarefa) {
+		return new TarefaDTO(tarefa.getTitulo(), tarefa.getDescricao(), tarefa.getStatus());
+	}
+	
+	public static List<TarefaDTO> listEntityToListDTO(List<Tarefa> tarefas) {
+		return tarefas.stream()
+				.map(tarefa -> entityToDTO(tarefa))
+				.toList();
 	}
 }

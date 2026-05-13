@@ -1,0 +1,16 @@
+<table >
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (tarefa of tarefas; track tarefa.id) {
+            <th>{{tarefa.titulo}}</th>
+            <th>{{tarefa.descricao}}</th>
+            <th>{{tarefa.status}}</th>
+        }
+    </tbody>
+</table>
