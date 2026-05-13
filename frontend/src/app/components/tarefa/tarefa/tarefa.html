@@ -1,4 +1,9 @@
-<table>
+<div class="conteudo">
+    <div class="panel">
+        <input [(ngModel)]="tituloFiltro" placeholder="Digite um título">
+        <button (click)="procurarPorTitulo()">Filtrar</button>
+    </div>
+    <table>
     <thead>
         <tr>
             <th>Título</th>
@@ -16,3 +21,4 @@
         }
     </tbody>
 </table>
+</div>

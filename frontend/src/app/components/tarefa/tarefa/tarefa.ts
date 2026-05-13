@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { TarefaService } from '../../../services/tarefa.service';
 import { Tarefa } from '../../../models/tarefa';
-import { NgForOf } from "@angular/common";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tarefa',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './tarefa.html',
   styleUrl: './tarefa.css',
 })
 export class TarefaComponent implements OnInit{
   tarefas: Tarefa[] = [];
+  tituloFiltro: string = "";
+  status: string = "Todos";
 
   constructor(private service: TarefaService){}
 
@@ -23,5 +25,11 @@ export class TarefaComponent implements OnInit{
         this.tarefas = retorno;
         console.log(this.tarefas.length)
       });
+  }
+
+  procurarPorTitulo(){
+    this.service.procurarPorTitulo(this.tituloFiltro).subscribe(retorno => {
+      this.tarefas = retorno;
+    });
   }
 }

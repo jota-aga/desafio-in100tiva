@@ -1,3 +1,9 @@
+.conteudo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
 table { 
     width: 500px;
     margin: 25px 0;
