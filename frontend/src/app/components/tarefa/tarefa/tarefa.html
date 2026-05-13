@@ -1,4 +1,4 @@
-<table >
+<table>
     <thead>
         <tr>
             <th>Título</th>
@@ -8,9 +8,11 @@
     </thead>
     <tbody>
         @for (tarefa of tarefas; track tarefa.id) {
-            <th>{{tarefa.titulo}}</th>
-            <th>{{tarefa.descricao}}</th>
-            <th>{{tarefa.status}}</th>
+            <tr>
+                <th>{{tarefa.titulo}}</th>
+                <th>{{tarefa.descricao}}</th>
+                <th>{{tarefa.status}}</th>
+            </tr>
         }
     </tbody>
 </table>
