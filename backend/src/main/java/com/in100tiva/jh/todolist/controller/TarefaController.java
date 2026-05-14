@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.in100tiva.jh.todolist.dto.TarefaDTO;
 import com.in100tiva.jh.todolist.entity.Tarefa;
-import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 import com.in100tiva.jh.todolist.mapper.TarefaMapper;
 import com.in100tiva.jh.todolist.service.TarefaService;
 
@@ -56,21 +55,12 @@ public class TarefaController {
 		return TarefaMapper.listEntityToListDTO(tarefas);
 	}
 	
-	@GetMapping("/status")
-	@ResponseStatus(code = HttpStatus.OK)
-	public List<Tarefa> procurarTarefaPorStatus(@RequestParam StatusDaTarefa status) {
-		return tarefaService.procurarTarefasPorStatus(status);
-	}
-	
-	@GetMapping("/titulo")
-	@ResponseStatus(code = HttpStatus.OK)
-	public List<Tarefa> procurarTarefaPorTitulo(@RequestParam String titulo) {
-		return tarefaService.procurarTarefasPorTitulo(titulo);
-	}
-	
 	@GetMapping("/filter")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<Tarefa> procurarTarefaPorTituloEStatus(@RequestParam String titulo, @RequestParam StatusDaTarefa status) {
-		return tarefaService.procurarTarefasPorTituloEStatus(titulo, status);
+	public List<TarefaDTO> listarTarefasFiltradas(@RequestParam String titulo, @RequestParam String status,
+												  @RequestParam String sortBy) {
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas(titulo, status, sortBy);
+		
+		return TarefaMapper.listEntityToListDTO(tarefas);
 	}
 }

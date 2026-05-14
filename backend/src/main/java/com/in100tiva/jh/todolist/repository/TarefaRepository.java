@@ -1,14 +1,10 @@
 package com.in100tiva.jh.todolist.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.in100tiva.jh.todolist.entity.Tarefa;
-import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 
-public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
-	List<Tarefa> findAllByStatus(StatusDaTarefa status);
-	List<Tarefa> findAllByTituloContains(String titulo);
-	List<Tarefa> findAllByTituloContainsAndStatus(String titulo, StatusDaTarefa statusDaTarefa);
+public interface TarefaRepository extends JpaRepository<Tarefa, Long>, JpaSpecificationExecutor<Tarefa>{
+
 }

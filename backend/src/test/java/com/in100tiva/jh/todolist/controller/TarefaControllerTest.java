@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.in100tiva.jh.todolist.dto.TarefaDTO;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
+import com.in100tiva.jh.todolist.mapper.TarefaMapper;
 import com.in100tiva.jh.todolist.repository.TarefaRepository;
 
 import tools.jackson.core.JacksonException;
@@ -113,75 +114,28 @@ public class TarefaControllerTest {
 	}
 	
 	@Test
-	public void shouldFindByStatusSucessfully() throws JacksonException, Exception {
-		Tarefa tarefa = Tarefa.builder()
-				.titulo("titulo")
-				.descricao("descrição")
-				.status(StatusDaTarefa.PENDENTE)
-				.build();
-		Tarefa tarefa2 = Tarefa.builder()
-				.titulo("titulo")
+	public void shouldFindFilteredSucessfully() throws JacksonException, Exception {
+		Tarefa tarefaPendente = Tarefa.builder()
+				.titulo("xyz")
 				.descricao("descrição")
 				.status(StatusDaTarefa.PENDENTE)
 				.build();
 		
-		tarefaRepository.saveAll(List.of(tarefa, tarefa2));
-		
-		mockMvc.perform(MockMvcRequestBuilders.get(URI+"/status")
-				.param("status", StatusDaTarefa.PENDENTE.toString()))
-		.andExpect(MockMvcResultMatchers.status().isOk());
-		
-		List<Tarefa> tarefas = tarefaRepository.findAllByStatus(StatusDaTarefa.PENDENTE);
-		
-		assertEquals(2, tarefas.size());
-	}
-	
-	@Test
-	public void shouldFindByTituloSucessfully() throws JacksonException, Exception {
-		Tarefa tarefa = Tarefa.builder()
-				.titulo("titulozinho")
-				.descricao("descrição")
-				.status(StatusDaTarefa.PENDENTE)
-				.build();
-		Tarefa tarefa2 = Tarefa.builder()
-				.titulo("tit ulo")
-				.descricao("descrição")
-				.status(StatusDaTarefa.PENDENTE)
-				.build();
-		
-		tarefaRepository.saveAll(List.of(tarefa, tarefa2));
-		
-		mockMvc.perform(MockMvcRequestBuilders.get(URI+"/titulo")
-				.param("titulo", "tit"))
-		.andExpect(MockMvcResultMatchers.status().isOk());
-		
-		List<Tarefa> tarefas = tarefaRepository.findAllByStatus(StatusDaTarefa.PENDENTE);
-		
-		assertEquals(2, tarefas.size());
-	}
-	
-	@Test
-	public void shouldFindByTituloAndStatusSucessfully() throws JacksonException, Exception {
-		Tarefa tarefa = Tarefa.builder()
-				.titulo("titulozinho")
-				.descricao("descrição")
-				.status(StatusDaTarefa.PENDENTE)
-				.build();
-		Tarefa tarefa2 = Tarefa.builder()
-				.titulo("titulo")
+		Tarefa tarefaFinalizada = Tarefa.builder()
+				.titulo("abc")
 				.descricao("descrição")
 				.status(StatusDaTarefa.FINALIZADA)
 				.build();
+		tarefaRepository.saveAll(List.of(tarefaPendente, tarefaFinalizada));
 		
-		tarefaRepository.saveAll(List.of(tarefa, tarefa2));
+		String responseEsperada = objectMapper.writeValueAsString(TarefaMapper.listEntityToListDTO(List.of(tarefaFinalizada)));
 		
 		mockMvc.perform(MockMvcRequestBuilders.get(URI+"/filter")
-				.param("titulo", "tit")
-				.param("status", StatusDaTarefa.FINALIZADA.toString()))
-		.andExpect(MockMvcResultMatchers.status().isOk());
+				.param("titulo", "ab")
+				.param("status", StatusDaTarefa.FINALIZADA.name())
+				.param("sortBy", "status"))
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.content().json(responseEsperada));
 		
-		List<Tarefa> tarefas = tarefaRepository.findAllByTituloContainsAndStatus("titu", StatusDaTarefa.PENDENTE);
-		
-		assertEquals(1, tarefas.size());
 	}
 }

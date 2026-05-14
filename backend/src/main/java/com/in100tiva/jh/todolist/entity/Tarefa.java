@@ -3,6 +3,8 @@ package com.in100tiva.jh.todolist.entity;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,5 +28,6 @@ public class Tarefa {
 	
 	private String descricao;
 	
+	@Enumerated(EnumType.STRING)
 	private StatusDaTarefa status;
 }

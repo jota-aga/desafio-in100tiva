@@ -94,4 +94,96 @@ public class TarefaServiceTest {
 		tarefas = tarefaService.listarTarefas();
 		assertTrue(tarefas.isEmpty());
 	}
+	
+	@Test
+	public void shouldFindTarefasSucessfully() {
+		Tarefa tarefaFinalizada = Tarefa.builder()
+				.titulo("titulo abc")
+				.descricao("descrição")
+				.status(StatusDaTarefa.FINALIZADA)
+				.build();
+		Tarefa tarefaEmAndamento = Tarefa.builder()
+				.titulo("titulo xyz")
+				.descricao("descrição")
+				.status(StatusDaTarefa.EM_ANDAMENTO)
+				.build();
+
+		tarefaService.criarTarefa(request);
+		tarefaRepository.save(tarefaEmAndamento);
+		tarefaRepository.save(tarefaFinalizada);
+		
+		
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("titulo", StatusDaTarefa.FINALIZADA.name(), "status");
+		
+		assertEquals(1, tarefas.size());
+	}
+	
+	@Test
+	public void shouldFindTarefasSucessfully_WhenTituloIsNull() {
+		Tarefa tarefaFinalizada = Tarefa.builder()
+				.titulo("titulo abc")
+				.descricao("descrição")
+				.status(StatusDaTarefa.FINALIZADA)
+				.build();
+		Tarefa tarefaEmAndamento = Tarefa.builder()
+				.titulo("titulo xyz")
+				.descricao("descrição")
+				.status(StatusDaTarefa.EM_ANDAMENTO)
+				.build();
+
+		tarefaService.criarTarefa(request);
+		tarefaRepository.save(tarefaEmAndamento);
+		tarefaRepository.save(tarefaFinalizada);
+		
+		
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas(null, StatusDaTarefa.FINALIZADA.name(), "status");
+		
+		assertEquals(1, tarefas.size());
+	}
+	
+	@Test
+	public void shouldFindTarefasSucessfully_WhenTituloIsBlank() {
+		Tarefa tarefaFinalizada = Tarefa.builder()
+				.titulo("titulo abc")
+				.descricao("descrição")
+				.status(StatusDaTarefa.FINALIZADA)
+				.build();
+		Tarefa tarefaEmAndamento = Tarefa.builder()
+				.titulo("titulo xyz")
+				.descricao("descrição")
+				.status(StatusDaTarefa.EM_ANDAMENTO)
+				.build();
+
+		tarefaService.criarTarefa(request);
+		tarefaRepository.save(tarefaEmAndamento);
+		tarefaRepository.save(tarefaFinalizada);
+		
+		
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("             ", StatusDaTarefa.FINALIZADA.name(), "status");
+		
+		assertEquals(1, tarefas.size());
+	}
+	
+	@Test
+	public void shouldFindTarefasSucessfully_WhenStatusIsNull() {
+		Tarefa tarefaFinalizada = Tarefa.builder()
+				.titulo("titulo abc")
+				.descricao("descrição")
+				.status(StatusDaTarefa.FINALIZADA)
+				.build();
+		Tarefa tarefaEmAndamento = Tarefa.builder()
+				.titulo("titulo xyz")
+				.descricao("descrição")
+				.status(StatusDaTarefa.EM_ANDAMENTO)
+				.build();
+
+		tarefaService.criarTarefa(request);
+		tarefaRepository.save(tarefaEmAndamento);
+		tarefaRepository.save(tarefaFinalizada);
+		
+		
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("titulo", null, "status");
+		
+		assertEquals(3, tarefas.size());
+	}
 }
