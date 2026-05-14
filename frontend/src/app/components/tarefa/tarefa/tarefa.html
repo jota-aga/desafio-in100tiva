@@ -1,12 +1,23 @@
 <div class="conteudo">
     <div class="panel-filter">
         <input [(ngModel)]="tituloFiltro" placeholder="Digite um título">
-        <select [(ngModel)]="statusFiltro">
-            <option value="TODOS">Todos</option>
+        <div class="status-filter">
+            <label>Status</label>
+            <select [(ngModel)]="statusFiltro">
+            <option value="">Todos</option>
             <option value="EM_ANDAMENTO">Em Andamento</option>
             <option value="PENDENTE">Pendente</option>
             <option value="FINALIZADA">Finalizada</option>
         </select>
+        </div>
+        
+        <div class="sort-by-filter">
+            <label>Ordernar Por</label>
+            <select [(ngModel)]="sortBy">
+                <option value="status">Status</option>
+                <option value="titulo">Título</option>
+            </select>
+        </div>
         <button (click)="filtrar()">Filtrar</button>
         
     </div>

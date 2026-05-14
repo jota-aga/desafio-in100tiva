@@ -64,14 +64,14 @@ public class TarefaService {
 			List<Predicate> predicates = new ArrayList<>();
 			
 			if(titulo != null && !titulo.isBlank()) {
-				predicates.add(builder.like(root.get("titulo"), "%"+titulo+"%"));
+				predicates.add(builder.like(builder.lower(root.get("titulo")), "%"+titulo.toLowerCase()+"%"));
 			}
 			
-			if(status != null) {
+			if(status != null && !status.isBlank()) {
 				try {
 					predicates.add(builder.equal(root.get("status"), StatusDaTarefa.valueOf(status.toUpperCase())));
 				}
-				catch (Exception e) {
+				catch (IllegalArgumentException  e) {
 					System.out.println("Não foi possível tranformar o enum");
 				}
 			}

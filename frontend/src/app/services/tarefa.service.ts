@@ -16,25 +16,12 @@ export class TarefaService {
         return this.http.get<Tarefa[]>(this.api);
     }
 
-    procurarPorTitulo(titulo: string):Observable<Tarefa[]>{
-        const params = new HttpParams()
-            .set("titulo", titulo);
-
-        return this.http.get<Tarefa[]>(this.api+'/titulo', {params});
-    }
-
-    procurarPorStatus(status: string):Observable<Tarefa[]>{
-        const params = new HttpParams()
-            .set("status", status);
-
-        return this.http.get<Tarefa[]>(this.api+'/status', {params});
-    }
-
-    procurarPorTituloEStatus(status: string, titulo: string):Observable<Tarefa[]>{
+     filtrar(titulo: string, status: string, sortBy: string):Observable<Tarefa[]>{
         const params = new HttpParams()
             .set("titulo", titulo)
-            .set("status", status);
+            .set("status", status)
+            .set("sortBy", sortBy);
 
-        return this.http.get<Tarefa[]>(this.api+'/filter', {params});
+        return this.http.get<Tarefa[]>(this.api+"/filter", {params});
     }
 }
