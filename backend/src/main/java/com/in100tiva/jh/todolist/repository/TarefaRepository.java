@@ -10,4 +10,5 @@ import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
 	List<Tarefa> findAllByStatus(StatusDaTarefa status);
 	List<Tarefa> findAllByTituloContains(String titulo);
+	List<Tarefa> findAllByTituloContainsAndStatus(String titulo, StatusDaTarefa statusDaTarefa);
 }

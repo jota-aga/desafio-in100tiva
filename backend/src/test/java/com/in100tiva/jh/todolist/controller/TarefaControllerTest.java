@@ -159,4 +159,29 @@ public class TarefaControllerTest {
 		
 		assertEquals(2, tarefas.size());
 	}
+	
+	@Test
+	public void shouldFindByTituloAndStatusSucessfully() throws JacksonException, Exception {
+		Tarefa tarefa = Tarefa.builder()
+				.titulo("titulozinho")
+				.descricao("descrição")
+				.status(StatusDaTarefa.PENDENTE)
+				.build();
+		Tarefa tarefa2 = Tarefa.builder()
+				.titulo("titulo")
+				.descricao("descrição")
+				.status(StatusDaTarefa.FINALIZADA)
+				.build();
+		
+		tarefaRepository.saveAll(List.of(tarefa, tarefa2));
+		
+		mockMvc.perform(MockMvcRequestBuilders.get(URI+"/filter")
+				.param("titulo", "tit")
+				.param("status", StatusDaTarefa.FINALIZADA.toString()))
+		.andExpect(MockMvcResultMatchers.status().isOk());
+		
+		List<Tarefa> tarefas = tarefaRepository.findAllByTituloContainsAndStatus("titu", StatusDaTarefa.PENDENTE);
+		
+		assertEquals(1, tarefas.size());
+	}
 }

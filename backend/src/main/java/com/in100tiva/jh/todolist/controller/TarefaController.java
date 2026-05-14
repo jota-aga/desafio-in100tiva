@@ -67,4 +67,10 @@ public class TarefaController {
 	public List<Tarefa> procurarTarefaPorTitulo(@RequestParam String titulo) {
 		return tarefaService.procurarTarefasPorTitulo(titulo);
 	}
+	
+	@GetMapping("/filter")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<Tarefa> procurarTarefaPorTituloEStatus(@RequestParam String titulo, @RequestParam StatusDaTarefa status) {
+		return tarefaService.procurarTarefasPorTituloEStatus(titulo, status);
+	}
 }

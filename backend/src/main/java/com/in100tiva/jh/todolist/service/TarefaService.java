@@ -57,4 +57,8 @@ public class TarefaService {
 	public List<Tarefa> procurarTarefasPorTitulo(String titulo){
 		return tarefaRepository.findAllByTituloContains(titulo);
 	}
+	
+	public List<Tarefa> procurarTarefasPorTituloEStatus(String titulo, StatusDaTarefa status){
+		return tarefaRepository.findAllByTituloContainsAndStatus(titulo, status);
+	}
 }

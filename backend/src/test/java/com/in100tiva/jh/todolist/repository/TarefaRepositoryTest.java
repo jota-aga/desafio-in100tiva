@@ -64,4 +64,23 @@ public class TarefaRepositoryTest {
 		
 		assertEquals(tarefas.size(), 1);
 	}
+	
+	@Test
+	public void shouldFindByTituloAndStatus() {
+		Tarefa tarefaFinalizada = Tarefa.builder()
+				.titulo("titulo")
+				.descricao("descrição")
+				.status(StatusDaTarefa.FINALIZADA)
+				.build();
+		Tarefa tarefaEmAndamento = Tarefa.builder()
+				.titulo("titulo")
+				.descricao("descrição")
+				.status(StatusDaTarefa.EM_ANDAMENTO)
+				.build();
+		tarefaRepository.saveAll(List.of(tarefa, tarefaEmAndamento, tarefaFinalizada));
+		
+		List<Tarefa> tarefas = tarefaRepository.findAllByTituloContainsAndStatus("tit",StatusDaTarefa.FINALIZADA);
+		
+		assertEquals(tarefas.size(), 1);
+	}
 }
