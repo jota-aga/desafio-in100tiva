@@ -22,4 +22,19 @@ export class TarefaService {
 
         return this.http.get<Tarefa[]>(this.api+'/titulo', {params});
     }
+
+    procurarPorStatus(status: string):Observable<Tarefa[]>{
+        const params = new HttpParams()
+            .set("status", status);
+
+        return this.http.get<Tarefa[]>(this.api+'/status', {params});
+    }
+
+    procurarPorTituloEStatus(status: string, titulo: string):Observable<Tarefa[]>{
+        const params = new HttpParams()
+            .set("titulo", titulo)
+            .set("status", status);
+
+        return this.http.get<Tarefa[]>(this.api+'/filter', {params});
+    }
 }

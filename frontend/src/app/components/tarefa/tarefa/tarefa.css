@@ -31,3 +31,7 @@ table tbody tr {
     border-bottom: 1px solid #dddddd;
 }
 
+.panel-filter{
+    flex-direction: row;
+}
+

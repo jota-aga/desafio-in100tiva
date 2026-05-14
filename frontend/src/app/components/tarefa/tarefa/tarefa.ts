@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class TarefaComponent implements OnInit{
   tarefas: Tarefa[] = [];
   tituloFiltro: string = "";
-  status: string = "Todos";
+  statusFiltro: string = "TODOS";
 
   constructor(private service: TarefaService){}
 
@@ -23,13 +23,27 @@ export class TarefaComponent implements OnInit{
   listar(): void{
     this.service.listar().subscribe(retorno => {
         this.tarefas = retorno;
-        console.log(this.tarefas.length)
       });
   }
 
-  procurarPorTitulo(){
-    this.service.procurarPorTitulo(this.tituloFiltro).subscribe(retorno => {
-      this.tarefas = retorno;
-    });
+  filtrar(){
+    if(!this.tituloFiltro.trim() && !this.statusFiltro.trim()){
+      this.listar();
+    }
+    else if(this.statusFiltro == "TODOS"){
+      this.service.procurarPorTitulo(this.tituloFiltro).subscribe(retorno => {
+        this.tarefas = retorno;
+      });
+    }
+    else if((!this.tituloFiltro.trim())){
+      this.service.procurarPorStatus(this.statusFiltro).subscribe(retorno => {
+        this.tarefas = retorno;
+      });
+    }
+    else{
+      this.service.procurarPorTituloEStatus(this.statusFiltro, this.tituloFiltro).subscribe(retorno => {
+        this.tarefas = retorno;
+      });
+    }
   }
 }

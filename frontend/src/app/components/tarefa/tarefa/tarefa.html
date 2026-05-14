@@ -1,7 +1,14 @@
 <div class="conteudo">
-    <div class="panel">
+    <div class="panel-filter">
         <input [(ngModel)]="tituloFiltro" placeholder="Digite um título">
-        <button (click)="procurarPorTitulo()">Filtrar</button>
+        <select [(ngModel)]="statusFiltro">
+            <option value="TODOS">Todos</option>
+            <option value="EM_ANDAMENTO">Em Andamento</option>
+            <option value="PENDENTE">Pendente</option>
+            <option value="FINALIZADA">Finalizada</option>
+        </select>
+        <button (click)="filtrar()">Filtrar</button>
+        
     </div>
     <table>
     <thead>
