@@ -16,11 +16,13 @@ export class TarefaService {
         return this.http.get<Tarefa[]>(this.api);
     }
 
-     filtrar(titulo: string, status: string, sortBy: string):Observable<Tarefa[]>{
-        const params = new HttpParams()
+     filtrar(titulo: string, status: string[], sortBy: string):Observable<Tarefa[]>{
+        let params = new HttpParams()
             .set("titulo", titulo)
-            .set("status", status)
             .set("sortBy", sortBy);
+            status.forEach(status => 
+                params = params.append("status", status)
+            );
 
         return this.http.get<Tarefa[]>(this.api+"/filter", {params});
     }

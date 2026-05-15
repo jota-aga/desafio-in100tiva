@@ -1,14 +1,15 @@
 <div class="conteudo">
     <div class="panel-filter">
         <input [(ngModel)]="tituloFiltro" placeholder="Digite um título">
+
         <div class="status-filter">
             <label>Status</label>
-            <select [(ngModel)]="statusFiltro">
-            <option value="">Todos</option>
-            <option value="EM_ANDAMENTO">Em Andamento</option>
-            <option value="PENDENTE">Pendente</option>
-            <option value="FINALIZADA">Finalizada</option>
-        </select>
+            <div class="options-checkbox">
+                @for (opcao of opcoesStatusCheckBox; track opcao.enumName) {
+                    <input type="checkbox" [(ngModel)]="opcao.selecionado">
+                    <label>{{opcao.legenda}}</label>
+                }
+            </div>
         </div>
         
         <div class="sort-by-filter">
@@ -27,6 +28,7 @@
             <th>Título</th>
             <th>Descrição</th>
             <th>Status</th>
+            <th>Opções</th>
         </tr>
     </thead>
     <tbody>

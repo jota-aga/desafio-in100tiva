@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { TarefaService } from '../../../services/tarefa.service';
 import { Tarefa } from '../../../models/tarefa';
 import { FormsModule } from '@angular/forms';
+import { statusDaTarefa } from '../../../enums/statusDaTarefa';
 
 @Component({
   selector: 'app-tarefa',
@@ -12,8 +13,12 @@ import { FormsModule } from '@angular/forms';
 export class TarefaComponent implements OnInit{
   tarefas: Tarefa[] = [];
   tituloFiltro: string = "";
-  statusFiltro: string = "";
-  sortBy: string = "status";
+  sortBy: string = "status"
+  opcoesStatusCheckBox = Object.entries(statusDaTarefa).map(([enumName, legenda]) => ({
+    enumName: enumName,
+    legenda: legenda,
+    selecionado: true,
+  }));
 
   constructor(private service: TarefaService){}
 
@@ -28,9 +33,15 @@ export class TarefaComponent implements OnInit{
   }
 
   filtrar(){
-    this.service.filtrar(this.tituloFiltro, this.statusFiltro, this.sortBy).subscribe(retorno => {
+    this.service.filtrar(this.tituloFiltro, this.getEnumsParaFiltro(), this.sortBy).subscribe(retorno => {
         this.tarefas = retorno;
       });
+  }
+
+  private getEnumsParaFiltro(): string[]{
+    return this.opcoesStatusCheckBox
+    .filter(opcao => opcao.selecionado)
+    .map(opcao => opcao.enumName);
   }
 }
 
