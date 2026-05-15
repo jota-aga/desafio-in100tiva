@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { TarefaService } from '../../../services/tarefa.service';
 import { Tarefa } from '../../../models/tarefa';
 import { FormsModule } from '@angular/forms';
-import { statusDaTarefa } from '../../../enums/statusDaTarefa';
+import { StatusDaTarefa } from '../../../enums/StatusDaTarefa';
 
 @Component({
   selector: 'app-tarefa',
@@ -14,7 +14,7 @@ export class TarefaComponent implements OnInit{
   tarefas: Tarefa[] = [];
   tituloFiltro: string = "";
   sortBy: string = "status"
-  opcoesStatusCheckBox = Object.entries(statusDaTarefa).map(([enumName, legenda]) => ({
+  opcoesStatusCheckBox = Object.entries(StatusDaTarefa).map(([enumName, legenda]) => ({
     enumName: enumName,
     legenda: legenda,
     selecionado: true,

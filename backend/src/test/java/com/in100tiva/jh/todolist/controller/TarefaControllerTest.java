@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.in100tiva.jh.todolist.dto.TarefaDTO;
+import com.in100tiva.jh.todolist.dto.TarefaRequest;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 import com.in100tiva.jh.todolist.mapper.TarefaMapper;
@@ -40,11 +40,11 @@ public class TarefaControllerTest {
 	@Autowired
 	private TarefaRepository tarefaRepository;
 	
-	private TarefaDTO tarefaRequest;
+	private TarefaRequest tarefaRequest;
 	
 	@BeforeEach
 	public void setUp() {
-		tarefaRequest = new TarefaDTO("titulo", "descrição", StatusDaTarefa.FINALIZADA);
+		tarefaRequest = new TarefaRequest("titulo", "descrição", StatusDaTarefa.FINALIZADA);
 		tarefaRepository.deleteAll();
 	}
 	
@@ -62,7 +62,7 @@ public class TarefaControllerTest {
 	
 	@Test
 	public void createTarefa_WhenTituloIsEmpty() throws JacksonException, Exception {
-		tarefaRequest = new TarefaDTO("   ", "descrição", StatusDaTarefa.FINALIZADA);
+		tarefaRequest = new TarefaRequest("   ", "descrição", StatusDaTarefa.FINALIZADA);
 
 		mockMvc.perform(MockMvcRequestBuilders.post(URI)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -128,7 +128,7 @@ public class TarefaControllerTest {
 				.build();
 		tarefaRepository.saveAll(List.of(tarefaPendente, tarefaFinalizada));
 		
-		String responseEsperada = objectMapper.writeValueAsString(TarefaMapper.listEntityToListDTO(List.of(tarefaFinalizada)));
+		String responseEsperada = objectMapper.writeValueAsString(TarefaMapper.listEntityToListResponse(List.of(tarefaFinalizada)));
 		
 		mockMvc.perform(MockMvcRequestBuilders.get(URI+"/filter")
 				.param("titulo", "ab")

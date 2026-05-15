@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.in100tiva.jh.todolist.dto.TarefaDTO;
+import com.in100tiva.jh.todolist.dto.TarefaRequest;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.enums.StatusDaTarefa;
 import com.in100tiva.jh.todolist.exception.NotFoundException;
@@ -29,12 +29,12 @@ public class TarefaServiceTest {
 	@Autowired
 	private TarefaRepository tarefaRepository;
 	
-	private TarefaDTO request;
+	private TarefaRequest request;
 	
 	
 	@BeforeEach
 	public void setUp() {
-		request = new TarefaDTO("titulo", "descricao", StatusDaTarefa.PENDENTE);
+		request = new TarefaRequest("titulo", "descricao", StatusDaTarefa.PENDENTE);
 		tarefaRepository.deleteAll();
 	}
 	
@@ -62,7 +62,7 @@ public class TarefaServiceTest {
 	public void shouldUpdateSucessfully() {
 		tarefaService.criarTarefa(request);
 		
-		TarefaDTO atualizacao = new TarefaDTO("novo titulo", "nova descricao", StatusDaTarefa.FINALIZADA);
+		TarefaRequest atualizacao = new TarefaRequest("novo titulo", "nova descricao", StatusDaTarefa.FINALIZADA);
 		
 		List<Tarefa> tarefas = tarefaService.listarTarefas();
 		

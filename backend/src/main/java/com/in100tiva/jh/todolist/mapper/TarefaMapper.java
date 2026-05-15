@@ -2,12 +2,13 @@ package com.in100tiva.jh.todolist.mapper;
 
 import java.util.List;
 
-import com.in100tiva.jh.todolist.dto.TarefaDTO;
+import com.in100tiva.jh.todolist.dto.TarefaRequest;
+import com.in100tiva.jh.todolist.dto.TarefaResponse;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 
 public class TarefaMapper {
 	
-	public static Tarefa RequestToEntity(TarefaDTO tarefaRequest) {
+	public static Tarefa RequestToEntity(TarefaRequest tarefaRequest) {
 		return Tarefa.builder()
 						.titulo(tarefaRequest.titulo())
 						.descricao(tarefaRequest.descricao())
@@ -15,7 +16,7 @@ public class TarefaMapper {
 						.build();
 	}
 	
-	public static Tarefa editarTarefa(TarefaDTO tarefaRequest, Tarefa tarefa) {
+	public static Tarefa editarTarefa(TarefaRequest tarefaRequest, Tarefa tarefa) {
 		tarefa.setTitulo(tarefaRequest.titulo());
 		tarefa.setDescricao(tarefaRequest.descricao());
 		tarefa.setStatus(tarefaRequest.status());
@@ -23,13 +24,13 @@ public class TarefaMapper {
 		return tarefa;
 	}
 	
-	public static TarefaDTO entityToDTO(Tarefa tarefa) {
-		return new TarefaDTO(tarefa.getTitulo(), tarefa.getDescricao(), tarefa.getStatus());
+	public static TarefaResponse entityToResponse(Tarefa tarefa) {
+		return new TarefaResponse(tarefa.getId(), tarefa.getTitulo(), tarefa.getDescricao(), tarefa.getStatus().getLegenda());
 	}
 	
-	public static List<TarefaDTO> listEntityToListDTO(List<Tarefa> tarefas) {
+	public static List<TarefaResponse> listEntityToListResponse(List<Tarefa> tarefas) {
 		return tarefas.stream()
-				.map(tarefa -> entityToDTO(tarefa))
+				.map(tarefa -> entityToResponse(tarefa))
 				.toList();
 	}
 }

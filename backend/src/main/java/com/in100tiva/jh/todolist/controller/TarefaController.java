@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.in100tiva.jh.todolist.dto.TarefaDTO;
+import com.in100tiva.jh.todolist.dto.TarefaRequest;
+import com.in100tiva.jh.todolist.dto.TarefaResponse;
 import com.in100tiva.jh.todolist.entity.Tarefa;
 import com.in100tiva.jh.todolist.mapper.TarefaMapper;
 import com.in100tiva.jh.todolist.service.TarefaService;
@@ -31,13 +32,13 @@ public class TarefaController {
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void criarTarefa(@Valid @RequestBody TarefaDTO request) {
+	public void criarTarefa(@Valid @RequestBody TarefaRequest request) {
 		tarefaService.criarTarefa(request);
 	}
 	
 	@PutMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public void atualizarTarefa(@RequestBody TarefaDTO request, @PathVariable Long id) {
+	public void atualizarTarefa(@RequestBody TarefaRequest request, @PathVariable Long id) {
 		tarefaService.atualizarTarefa(request, id);
 	}
 	
@@ -49,18 +50,18 @@ public class TarefaController {
 	
 	@GetMapping
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<TarefaDTO> listarTarefas() {
+	public List<TarefaResponse> listarTarefas() {
 		List<Tarefa> tarefas = tarefaService.listarTarefas();
 		
-		return TarefaMapper.listEntityToListDTO(tarefas);
+		return TarefaMapper.listEntityToListResponse(tarefas);
 	}
 	
 	@GetMapping("/filter")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<TarefaDTO> listarTarefasFiltradas(@RequestParam(required = false) String titulo, @RequestParam(required = false) List<String> status,
+	public List<TarefaResponse> listarTarefasFiltradas(@RequestParam(required = false) String titulo, @RequestParam(required = false) List<String> status,
 												  @RequestParam(required = false) String sortBy) {
 		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas(titulo, status, sortBy);
 		
-		return TarefaMapper.listEntityToListDTO(tarefas);
+		return TarefaMapper.listEntityToListResponse(tarefas);
 	}
 }
