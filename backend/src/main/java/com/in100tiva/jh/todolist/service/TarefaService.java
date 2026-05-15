@@ -54,7 +54,7 @@ public class TarefaService {
 				.orElseThrow(() -> new NotFoundException("Tarefa by id"));
 	}
 	
-	public List<Tarefa> procurarTarefasFiltradas(String titulo, String status, String sortBy){
+	public List<Tarefa> procurarTarefasFiltradas(String titulo, List<String> status, String sortBy){
 		Sort sort = Sort.by(
 				Sort.Direction.DESC, 
 				sortBy != null && !sortBy.isBlank()? sortBy : "status")
@@ -67,9 +67,12 @@ public class TarefaService {
 				predicates.add(builder.like(builder.lower(root.get("titulo")), "%"+titulo.toLowerCase()+"%"));
 			}
 			
-			if(status != null && !status.isBlank()) {
+			if(status != null && !status.isEmpty()) {
 				try {
-					predicates.add(builder.equal(root.get("status"), StatusDaTarefa.valueOf(status.toUpperCase())));
+					List<StatusDaTarefa> statusEnum = status.stream()
+							.map(s -> StatusDaTarefa.valueOf(s))
+							.toList();
+					predicates.add(root.get("status").in(statusEnum));
 				}
 				catch (IllegalArgumentException  e) {
 					System.out.println("Não foi possível tranformar o enum");

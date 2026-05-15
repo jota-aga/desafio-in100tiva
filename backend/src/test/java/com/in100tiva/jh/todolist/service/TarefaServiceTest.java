@@ -113,9 +113,10 @@ public class TarefaServiceTest {
 		tarefaRepository.save(tarefaFinalizada);
 		
 		
-		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("titulo", StatusDaTarefa.FINALIZADA.name(), "status");
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("titulo", 
+				List.of(StatusDaTarefa.EM_ANDAMENTO.name()), "status");
 		
-		assertEquals(1, tarefas.size());
+		assertEquals(2, tarefas.size());
 	}
 	
 	@Test
@@ -136,7 +137,7 @@ public class TarefaServiceTest {
 		tarefaRepository.save(tarefaFinalizada);
 		
 		
-		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas(null, StatusDaTarefa.FINALIZADA.name(), "status");
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas(null, List.of(StatusDaTarefa.FINALIZADA.name()), "status");
 		
 		assertEquals(1, tarefas.size());
 	}
@@ -159,7 +160,7 @@ public class TarefaServiceTest {
 		tarefaRepository.save(tarefaFinalizada);
 		
 		
-		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("             ", StatusDaTarefa.FINALIZADA.name(), "status");
+		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas("             ", List.of(StatusDaTarefa.FINALIZADA.name()), "status");
 		
 		assertEquals(1, tarefas.size());
 	}

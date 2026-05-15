@@ -57,7 +57,7 @@ public class TarefaController {
 	
 	@GetMapping("/filter")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<TarefaDTO> listarTarefasFiltradas(@RequestParam(required = false) String titulo, @RequestParam(required = false) String status,
+	public List<TarefaDTO> listarTarefasFiltradas(@RequestParam(required = false) String titulo, @RequestParam(required = false) List<String> status,
 												  @RequestParam(required = false) String sortBy) {
 		List<Tarefa> tarefas = tarefaService.procurarTarefasFiltradas(titulo, status, sortBy);
 		
