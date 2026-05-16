@@ -10,14 +10,14 @@ import { StatusDaTarefa } from '../../enums/StatusDaTarefa';
   templateUrl: './tarefa-listagem.html',
   styleUrl: './tarefa-listagem.css',
 })
-export class TarefaListagemComponent implements OnInit{
+export class TarefaListagem implements OnInit{
   tarefas: Tarefa[] = [];
   tituloFiltro: string = "";
-  sortBy: string = "status"
+  sortBy: string = "status";
   opcoesStatusCheckBox = Object.entries(StatusDaTarefa).map(([enumName, legenda]) => ({
     enumName: enumName,
     legenda: legenda,
-    selecionado: true,
+    selecionado: true
   }));
 
   constructor(private service: TarefaService){}

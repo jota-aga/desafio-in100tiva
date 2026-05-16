@@ -26,4 +26,8 @@ export class TarefaService {
 
         return this.http.get<Tarefa[]>(this.api+"/filter", {params});
     }
+
+    criar(tarefa: Tarefa):void{
+        this.http.post(this.api, tarefa);
+    }
 }

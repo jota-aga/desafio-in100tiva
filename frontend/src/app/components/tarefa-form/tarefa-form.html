@@ -1,1 +1,22 @@
-<p>tarefa-form works!</p>
+<form>
+    <label>Título</label>
+    <input [(ngModel)]="tarefa.titulo">
+    <label>Descrição</label>
+    <input [(ngModel)]="tarefa.descricao">
+    @if (isEdicao) {
+        <label>Status</label>
+            <select>
+                @for (status of opcoesStatus; track status.enumName) {
+                    <option value="{{status.enumName}}">{{status.legenda}}</option>
+                }                
+            </select>
+    }
+    <button>
+        @if (isEdicao) {
+            Editar
+        }
+        @else {
+            Criar
+        }
+    </button>
+</form>
