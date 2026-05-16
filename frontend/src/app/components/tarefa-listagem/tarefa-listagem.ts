@@ -1,16 +1,16 @@
 import { Component, OnInit} from '@angular/core';
-import { TarefaService } from '../../../services/tarefa.service';
-import { Tarefa } from '../../../models/tarefa';
+import { TarefaService } from '../../services/tarefa.service';
+import { Tarefa } from '../../models/tarefa';
 import { FormsModule } from '@angular/forms';
-import { StatusDaTarefa } from '../../../enums/StatusDaTarefa';
+import { StatusDaTarefa } from '../../enums/StatusDaTarefa';
 
 @Component({
   selector: 'app-tarefa',
   imports: [FormsModule],
-  templateUrl: './tarefa.html',
-  styleUrl: './tarefa.css',
+  templateUrl: './tarefa-listagem.html',
+  styleUrl: './tarefa-listagem.css',
 })
-export class TarefaComponent implements OnInit{
+export class TarefaListagemComponent implements OnInit{
   tarefas: Tarefa[] = [];
   tituloFiltro: string = "";
   sortBy: string = "status"

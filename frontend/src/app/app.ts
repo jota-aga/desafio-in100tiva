@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TarefaComponent } from './components/tarefa/tarefa/tarefa';
+import { TarefaListagemComponent } from './components/tarefa.listagem/tarefa-listagem';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TarefaComponent],
+  standalone: true,
+  imports: [RouterOutlet, TarefaListagemComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
