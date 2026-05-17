@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Tarefa } from '../../models/tarefa';
 import { StatusDaTarefa } from '../../enums/StatusDaTarefa';
 import { FormsModule } from '@angular/forms';
+import { TarefaService } from '../../services/tarefa.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tarefa-form',
@@ -14,7 +16,6 @@ export class TarefaForm implements OnInit{
   tarefa: Tarefa = {
     titulo: "",
     descricao:"",
-    status: ""
   };
   isEdicao: boolean = false;
   opcoesStatus = Object.entries(StatusDaTarefa)
@@ -25,9 +26,20 @@ export class TarefaForm implements OnInit{
       })
     );
 
+  constructor(private service: TarefaService,
+              private router: Router
+  ){}
+
   ngOnInit(): void {
     if(this.tarefa.id){
       this.isEdicao = true;
     }
+  }
+
+  salvar(): void{
+    this.tarefa.status = "PENDENTE";
+    this.service.criar(this.tarefa).subscribe(() =>
+      this.router.navigate([""])
+    );
   }
 }

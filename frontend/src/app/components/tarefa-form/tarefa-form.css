@@ -1,0 +1,48 @@
+.conteudo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:100px auto 0 auto;
+    flex-direction: column;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); 
+    border-radius: 8px 8px 8px 8px;
+    padding: 30px;
+}
+
+button{
+    width: 100px;
+    height: 40px;
+    background-color: #009879;
+    color: white; 
+    border-radius: 8px 8px 8px 8px;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 50px auto 0 auto;
+    border: 0px;
+}
+
+input{
+    border-radius: 8px 8px 8px 8px;
+    margin-bottom: 20px;
+}
+
+.titulo{
+    height: 20px;
+    width: 300px;
+}
+
+.descricao{
+    width: 400px;
+    height: 80px;
+}
+
+label{
+    font-size: 24px;
+    margin-bottom: 15px;
+}

@@ -1,8 +1,17 @@
-<form>
+<div class="conteudo">
+    <h2>
+        @if (isEdicao) {
+            Editar Tarefa
+        }
+        @else {
+            Criar Tarefa
+        }
+    </h2>
+    <form>
     <label>Título</label>
-    <input [(ngModel)]="tarefa.titulo">
+    <input [(ngModel)]="tarefa.titulo" required="true" name="titulo" class="titulo">
     <label>Descrição</label>
-    <input [(ngModel)]="tarefa.descricao">
+    <input [(ngModel)]="tarefa.descricao" name="descricao" class="descricao">
     @if (isEdicao) {
         <label>Status</label>
             <select>
@@ -11,7 +20,7 @@
                 }                
             </select>
     }
-    <button>
+    <button (click)="salvar()">
         @if (isEdicao) {
             Editar
         }
@@ -20,3 +29,4 @@
         }
     </button>
 </form>
+</div>
